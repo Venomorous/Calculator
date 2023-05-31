@@ -9,6 +9,9 @@ class Calculator {
         this.history = "";
         this.operation = undefined;
     }
+    clearEntry() {
+        this.current = "";
+    }
     delete() {
         this.current = this.current.toString().slice(0, -1);
     }
@@ -24,6 +27,10 @@ class Calculator {
         this.operation = operation;
         this.history = this.current;
         this.current = "";
+    }
+    reverseSign() {
+        if (this.current === "") return;
+        this.current = this.current * -1;
     }
     compute() {
         let computation;
@@ -87,8 +94,10 @@ const operationButtons = document.querySelectorAll("[data-operation]");
 const equalsButton = document.querySelector("[data-equals]");
 const deleteButton = document.querySelector("[data-delete]");
 const allClearButton = document.querySelector("[data-all-clear]");
+const clearButton = document.querySelector("[data-clear-enter]");
 const historyTextElement = document.querySelector("[data-history]");
 const currentTextElement = document.querySelector("[data-current]");
+const reverseButton = document.querySelector("[data-reverse-sign]");
 
 const calculator = new Calculator(historyTextElement, currentTextElement);
 
@@ -116,7 +125,17 @@ allClearButton.addEventListener("click", (button) => {
     calculator.updateDisplay();
 });
 
+clearButton.addEventListener("click", (button) => {
+    calculator.clearEntry();
+    calculator.updateDisplay();
+});
+
 deleteButton.addEventListener("click", (button) => {
     calculator.delete();
+    calculator.updateDisplay();
+});
+
+reverseButton.addEventListener("click", (button) => {
+    calculator.reverseSign();
     calculator.updateDisplay();
 });
